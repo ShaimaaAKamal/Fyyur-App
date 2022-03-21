@@ -1,0 +1,41 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Fyyur | Venues{% endblock %}
+{% block content %}
+{% for area in areas %}
+<h3>{{ area.city }}, {{ area.state }}</h3>
+	<ul class="items">
+		{% for venue in area.venues %}
+		<li>
+			<a    href="/venues/{{ venue.id }}">
+				<i class="fas fa-music"></i>
+				<div class="item ">
+					<h5>{{ venue.name }}</h5>
+				</div>
+			</a>
+             <button class="dele btn btn-primary" data_id="{{venue.id}}">Delete venue</button>
+		</li>
+		{% endfor %}
+	</ul>
+{% endfor %}
+<style>
+    .dele{
+        width:150px;
+        }
+</style>
+<script>
+    entry=document.querySelectorAll(".dele")
+     for(let j=0;j<entry.length;j++){
+         let deel=entry[j];
+         deel.onclick=function(e){
+             e.preventDefault();
+           de=deel.getAttribute('data_id');
+           fetch('/venues/'+de+'/dele',{
+             method:'DELETE'})
+         .then(function() {
+          const item = e.target.parentElement;
+          item.remove();
+        })
+       }};
+</script>
+
+{% endblock %}
